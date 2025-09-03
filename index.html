@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Câu hỏi vui</title>
+    <title>Quiz Premium</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
@@ -12,50 +14,78 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
         }
 
         .container {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 50px 40px;
+            border-radius: 24px;
+            box-shadow: 
+                0 25px 50px rgba(0,0,0,0.1),
+                0 12px 24px rgba(0,0,0,0.1),
+                inset 0 1px 0 rgba(255,255,255,0.6);
             text-align: center;
-            max-width: 500px;
+            max-width: 600px;
             width: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            transform: rotate(45deg);
-            transition: all 0.3s ease;
-        }
-
-        .question-box {
-            margin-bottom: 30px;
             position: relative;
             z-index: 1;
         }
 
-        .question-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
-            display: block;
+        .header {
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: slideUp 0.8s ease forwards;
+        }
+
+        .header-text {
+            font-size: 18px;
+            color: #6366f1;
+            font-weight: 600;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .gift-icon {
+            font-size: 32px;
+            margin: 0 8px;
             animation: bounce 2s infinite;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes bounce {
@@ -63,77 +93,127 @@
                 transform: translateY(0);
             }
             40% {
-                transform: translateY(-10px);
+                transform: translateY(-8px);
             }
             60% {
-                transform: translateY(-5px);
+                transform: translateY(-4px);
+            }
+        }
+
+        .question-section {
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: slideUp 0.8s ease 0.2s forwards;
+        }
+
+        .question-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .question-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
             }
         }
 
         .question-text {
-            font-size: 24px;
-            color: #333;
-            font-weight: bold;
-            line-height: 1.4;
-            margin-bottom: 20px;
+            font-size: 22px;
+            color: #1e293b;
+            font-weight: 600;
+            line-height: 1.6;
+            margin-bottom: 30px;
         }
 
         .answer-buttons {
             display: flex;
             gap: 20px;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
         .answer-btn {
-            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
+            padding: 16px 32px;
+            border-radius: 16px;
             color: white;
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
             position: relative;
-            z-index: 1;
+            overflow: hidden;
+            min-width: 120px;
+        }
+
+        .answer-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: all 0.5s;
+        }
+
+        .answer-btn:hover::before {
+            left: 100%;
         }
 
         .answer-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255,107,107,0.6);
-            background: linear-gradient(45deg, #ff5252, #ff7979);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(59, 130, 246, 0.4);
+            background: linear-gradient(135deg, #2563eb, #1e40af);
         }
 
         .answer-btn:active {
-            transform: translateY(0);
+            transform: translateY(-2px);
         }
 
-        .answer-btn.yes {
-            background: linear-gradient(45deg, #4CAF50, #66BB6A);
-            box-shadow: 0 5px 15px rgba(76,175,80,0.4);
+        .answer-btn.option-a {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
         }
 
-        .answer-btn.yes:hover {
-            background: linear-gradient(45deg, #45a049, #5cb660);
-            box-shadow: 0 8px 25px rgba(76,175,80,0.6);
+        .answer-btn.option-a:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            box-shadow: 0 12px 32px rgba(16, 185, 129, 0.4);
         }
 
-        .answer-btn.no {
-            background: linear-gradient(45deg, #f44336, #e57373);
-            box-shadow: 0 5px 15px rgba(244,67,54,0.4);
+        .answer-btn.option-b {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
         }
 
-        .answer-btn.no:hover {
-            background: linear-gradient(45deg, #e53935, #ef5350);
-            box-shadow: 0 8px 25px rgba(244,67,54,0.6);
+        .answer-btn.option-b:hover {
+            background: linear-gradient(135deg, #d97706, #b45309);
+            box-shadow: 0 12px 32px rgba(245, 158, 11, 0.4);
         }
 
         .result {
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
         }
 
         .result.show {
@@ -142,19 +222,19 @@
         }
 
         .smiley {
-            font-size: 80px;
-            animation: smile 0.8s ease-in-out;
-            margin-bottom: 15px;
+            font-size: 64px;
+            animation: celebrate 1s ease-in-out;
+            margin-bottom: 20px;
             display: block;
         }
 
-        @keyframes smile {
+        @keyframes celebrate {
             0% {
                 transform: scale(0) rotate(0deg);
                 opacity: 0;
             }
             50% {
-                transform: scale(1.2) rotate(180deg);
+                transform: scale(1.3) rotate(180deg);
                 opacity: 1;
             }
             100% {
@@ -165,165 +245,363 @@
 
         .result-text {
             font-size: 20px;
-            color: #333;
-            font-weight: bold;
-            margin-bottom: 20px;
+            color: #1e293b;
+            font-weight: 600;
+            margin-bottom: 30px;
         }
 
-        .reset-btn {
-            background: linear-gradient(45deg, #9c27b0, #ba68c8);
+        .control-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .control-btn {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
             border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
+            padding: 12px 24px;
+            border-radius: 12px;
             color: white;
-            font-size: 16px;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(156,39,176,0.4);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3);
         }
 
-        .reset-btn:hover {
+        .control-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(156,39,176,0.6);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+        }
+
+        .control-btn.next {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.3);
+        }
+
+        .control-btn.next:hover {
+            box-shadow: 0 8px 24px rgba(6, 182, 212, 0.4);
         }
 
         .hidden {
             display: none;
         }
 
-        @media (max-width: 480px) {
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 2px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+
+        @media (max-width: 768px) {
             .container {
-                padding: 20px;
-                margin: 10px;
+                padding: 40px 30px;
+                margin: 15px;
+                max-width: 95%;
+            }
+            
+            .question-icon {
+                font-size: 40px;
             }
             
             .question-text {
-                font-size: 20px;
+                font-size: 18px;
             }
             
             .answer-buttons {
                 flex-direction: column;
                 gap: 15px;
+                align-items: center;
             }
             
             .answer-btn {
-                padding: 12px 25px;
+                width: 100%;
+                max-width: 280px;
+                padding: 14px 24px;
+            }
+            
+            .smiley {
+                font-size: 48px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+            
+            .header-text {
                 font-size: 16px;
+            }
+            
+            .question-text {
+                font-size: 16px;
+            }
+            
+            .answer-btn {
+                font-size: 15px;
+                padding: 12px 20px;
+            }
+            
+            .result-text {
+                font-size: 18px;
+            }
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div id="questionSection">
-            <div class="question-box">
-                <span class="question-icon">🍽️</span>
-                <div class="question-text">
-                    Ngoài ăn cớt ra bạn còn ăn gì không?
-                </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="header">
+            <div class="header-text">
+                Vui lòng nhấp để trả lời các câu hỏi sau nhận quà nè <span class="gift-icon">🎁</span>
+            </div>
+        </div>
+
+        <!-- Câu hỏi 1 -->
+        <div id="question1" class="question-section">
+            <div class="question-number">Câu 1</div>
+            <div class="question-text">
+                Ngoài ăn cớt ra bạn còn ăn gì nữa hông?😏
             </div>
             
             <div class="answer-buttons">
-                <button class="answer-btn yes" onclick="showResult('yes')">Có</button>
-                <button class="answer-btn no" onclick="showResult('no')">Không</button>
+                <button class="answer-btn option-a" onclick="answerQuestion(1, 'A')">A: Có</button>
+                <button class="answer-btn option-b" onclick="answerQuestion(1, 'B')">B: Không</button>
             </div>
         </div>
 
+        <!-- Câu hỏi 2 -->
+        <div id="question2" class="question-section hidden">
+            <div class="question-number">Câu 2</div>
+            <div class="question-text">
+                Ngoài làm con tó ra bạn còn làm con gì khác hông? 💖
+            </div>
+            
+            <div class="answer-buttons">
+                <button class="answer-btn option-a" onclick="answerQuestion(2, 'A')">A: Có</button>
+                <button class="answer-btn option-b" onclick="answerQuestion(2, 'B')">B: Không</button>
+            </div>
+        </div>
+
+        <!-- Kết quả -->
         <div id="resultSection" class="result hidden">
-            <span class="smiley" id="smileyIcon">😊</span>
-            <div class="result-text" id="resultText">Cảm ơn bạn đã trả lời!</div>
-            <button class="reset-btn" onclick="resetGame()">Chơi lại</button>
+            <span class="smiley" id="smileyIcon">🎉</span>
+            <div class="result-text" id="resultText">Chúc mừng bạn đã hoàn thành!</div>
+            <div class="control-buttons">
+                <button class="control-btn" onclick="resetGame()">Chơi lại</button>
+                <button class="control-btn next" onclick="showGift()">Nhận quà 🎁</button>
+            </div>
+        </div>
+
+        <!-- Màn hình nhận quà -->
+        <div id="giftSection" class="result hidden">
+            <span class="smiley">🎁✨</span>
+            <div class="result-text">Hãy tiếp tục làm bò để bị dắt nha :3 😊</div>
+            <div class="control-buttons">
+                <button class="control-btn" onclick="resetGame()">Chơi lại</button>
+            </div>
         </div>
     </div>
 
+    <div class="particles" id="particles"></div>
+
     <script>
-        function showResult(answer) {
-            const questionSection = document.getElementById('questionSection');
+        let currentQuestion = 1;
+        let answers = {};
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const progress = (currentQuestion - 1) / 2 * 100;
+            progressFill.style.width = progress + '%';
+        }
+
+        function answerQuestion(questionNum, answer) {
+            answers[questionNum] = answer;
+            
+            // Tạo hiệu ứng particles
+            createParticles();
+            
+            if (questionNum === 1) {
+                // Chuyển sang câu 2
+                setTimeout(() => {
+                    document.getElementById('question1').classList.add('hidden');
+                    document.getElementById('question2').classList.remove('hidden');
+                    currentQuestion = 2;
+                    updateProgress();
+                }, 500);
+            } else {
+                // Hiển thị kết quả
+                setTimeout(() => {
+                    showResult();
+                }, 500);
+            }
+        }
+
+        function showResult() {
+            const question2 = document.getElementById('question2');
             const resultSection = document.getElementById('resultSection');
             const smileyIcon = document.getElementById('smileyIcon');
             const resultText = document.getElementById('resultText');
 
-            // Ẩn phần câu hỏi
-            questionSection.style.opacity = '0';
-            questionSection.style.transform = 'translateY(-20px)';
+            question2.classList.add('hidden');
             
+            // Xác định kết quả dựa trên câu trả lời
+            let emoji = '🎉';
+            let text = 'Căng Căng Căng ^^';
+            
+    if ((answers[1] === 'B' && answers[2] === 'B') || (answers[1] === 'A' || answers[2] === 'A')) {
+    emoji = (answers[1] === 'B' && answers[2] === 'B') ? '🤣👉' :
+    text = 'Ghê Ghê Ghê ^^';
+}
+
+            
+            smileyIcon.textContent = emoji;
+            resultText.textContent = text;
+            
+            resultSection.classList.remove('hidden');
             setTimeout(() => {
-                questionSection.classList.add('hidden');
-                resultSection.classList.remove('hidden');
-                
-                // Thiết lập nội dung dựa trên câu trả lời
-                if (answer === 'yes') {
-                    smileyIcon.textContent = '😄';
-                    resultText.textContent = 'Tuyệt vời! Đa dạng thực phẩm rất tốt!';
-                } else {
-                    smileyIcon.textContent = '🤣👉';
-                    resultText.textContent = 'Ghê Ghê Ghê';
-                }
-                
-                // Hiển thị kết quả với hiệu ứng
-                setTimeout(() => {
-                    resultSection.classList.add('show');
-                }, 100);
-                
-                // Tạo hiệu ứng confetti đơn giản
-                createConfetti();
-            }, 300);
+                resultSection.classList.add('show');
+                updateProgress();
+                document.getElementById('progressFill').style.width = '100%';
+            }, 100);
+            
+            createCelebrationParticles();
+        }
+
+        function showGift() {
+            document.getElementById('resultSection').classList.add('hidden');
+            document.getElementById('giftSection').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('giftSection').classList.add('show');
+            }, 100);
+            
+            createGiftParticles();
         }
 
         function resetGame() {
-            const questionSection = document.getElementById('questionSection');
-            const resultSection = document.getElementById('resultSection');
+            currentQuestion = 1;
+            answers = {};
             
-            // Ẩn kết quả
-            resultSection.classList.remove('show');
+            // Ẩn tất cả sections
+            document.getElementById('question2').classList.add('hidden');
+            document.getElementById('resultSection').classList.remove('show');
+            document.getElementById('resultSection').classList.add('hidden');
+            document.getElementById('giftSection').classList.remove('show');
+            document.getElementById('giftSection').classList.add('hidden');
             
-            setTimeout(() => {
-                resultSection.classList.add('hidden');
-                questionSection.classList.remove('hidden');
-                questionSection.style.opacity = '1';
-                questionSection.style.transform = 'translateY(0)';
-            }, 300);
+            // Hiển thị câu hỏi 1
+            document.getElementById('question1').classList.remove('hidden');
+            
+            updateProgress();
         }
 
-        function createConfetti() {
-            const container = document.querySelector('.container');
-            const colors = ['#ff6b6b', '#4CAF50', '#2196F3', '#FF9800', '#9C27B0'];
+        function createParticles() {
+            const colors = ['#6366f1', '#8b5cf6', '#10b981', '#f59e0b'];
+            const container = document.getElementById('particles');
             
-            for (let i = 0; i < 20; i++) {
-                const confetti = document.createElement('div');
-                confetti.style.position = 'absolute';
-                confetti.style.width = '10px';
-                confetti.style.height = '10px';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.left = Math.random() * 100 + '%';
-                confetti.style.top = '-10px';
-                confetti.style.borderRadius = '50%';
-                confetti.style.pointerEvents = 'none';
-                confetti.style.zIndex = '1000';
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.animationDuration = (2 + Math.random() * 2) + 's';
+                particle.style.animationDelay = Math.random() * 2 + 's';
                 
-                container.appendChild(confetti);
+                container.appendChild(particle);
                 
-                // Animation rơi
-                confetti.animate([
-                    { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
-                    { transform: `translateY(${container.offsetHeight + 20}px) rotate(720deg)`, opacity: 0 }
-                ], {
-                    duration: 2000 + Math.random() * 1000,
-                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-                }).onfinish = () => {
-                    confetti.remove();
-                };
+                setTimeout(() => {
+                    particle.remove();
+                }, 4000);
             }
         }
 
-        // Thêm một chút tương tác khi hover vào container
-        document.querySelector('.container').addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.02)';
-        });
+        function createCelebrationParticles() {
+            const colors = ['#ffd700', '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4'];
+            const container = document.getElementById('particles');
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+                particle.style.animationDelay = Math.random() * 1 + 's';
+                
+                container.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 4000);
+            }
+        }
 
-        document.querySelector('.container').addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1)';
-        });
+        function createGiftParticles() {
+            const emojis = ['🎁', '✨', '🎉', '💖', '🌟'];
+            const container = document.getElementById('particles');
+            
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.fontSize = '20px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = '-50px';
+                particle.style.animation = 'fall 3s linear infinite';
+                particle.style.animationDelay = Math.random() * 2 + 's';
+                particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                particle.style.pointerEvents = 'none';
+                
+                container.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 5000);
+            }
+        }
+
+        // Khởi tạo
+        updateProgress();
     </script>
 </body>
 </html>
