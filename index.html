@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Câu hỏi vui</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+        }
+
+        .question-box {
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .question-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            display: block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .question-text {
+            font-size: 24px;
+            color: #333;
+            font-weight: bold;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        .answer-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .answer-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+            position: relative;
+            z-index: 1;
+        }
+
+        .answer-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255,107,107,0.6);
+            background: linear-gradient(45deg, #ff5252, #ff7979);
+        }
+
+        .answer-btn:active {
+            transform: translateY(0);
+        }
+
+        .answer-btn.yes {
+            background: linear-gradient(45deg, #4CAF50, #66BB6A);
+            box-shadow: 0 5px 15px rgba(76,175,80,0.4);
+        }
+
+        .answer-btn.yes:hover {
+            background: linear-gradient(45deg, #45a049, #5cb660);
+            box-shadow: 0 8px 25px rgba(76,175,80,0.6);
+        }
+
+        .answer-btn.no {
+            background: linear-gradient(45deg, #f44336, #e57373);
+            box-shadow: 0 5px 15px rgba(244,67,54,0.4);
+        }
+
+        .answer-btn.no:hover {
+            background: linear-gradient(45deg, #e53935, #ef5350);
+            box-shadow: 0 8px 25px rgba(244,67,54,0.6);
+        }
+
+        .result {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .result.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .smiley {
+            font-size: 80px;
+            animation: smile 0.8s ease-in-out;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        @keyframes smile {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2) rotate(180deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1) rotate(360deg);
+                opacity: 1;
+            }
+        }
+
+        .result-text {
+            font-size: 20px;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .reset-btn {
+            background: linear-gradient(45deg, #9c27b0, #ba68c8);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(156,39,176,0.4);
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(156,39,176,0.6);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .question-text {
+                font-size: 20px;
+            }
+            
+            .answer-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .answer-btn {
+                padding: 12px 25px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="questionSection">
+            <div class="question-box">
+                <span class="question-icon">🍽️</span>
+                <div class="question-text">
+                    Ngoài ăn cớt ra bạn còn ăn gì không?
+                </div>
+            </div>
+            
+            <div class="answer-buttons">
+                <button class="answer-btn yes" onclick="showResult('yes')">Có</button>
+                <button class="answer-btn no" onclick="showResult('no')">Không</button>
+            </div>
+        </div>
+
+        <div id="resultSection" class="result hidden">
+            <span class="smiley" id="smileyIcon">😊</span>
+            <div class="result-text" id="resultText">Cảm ơn bạn đã trả lời!</div>
+            <button class="reset-btn" onclick="resetGame()">Chơi lại</button>
+        </div>
+    </div>
+
+    <script>
+        function showResult(answer) {
+            const questionSection = document.getElementById('questionSection');
+            const resultSection = document.getElementById('resultSection');
+            const smileyIcon = document.getElementById('smileyIcon');
+            const resultText = document.getElementById('resultText');
+
+            // Ẩn phần câu hỏi
+            questionSection.style.opacity = '0';
+            questionSection.style.transform = 'translateY(-20px)';
+            
+            setTimeout(() => {
+                questionSection.classList.add('hidden');
+                resultSection.classList.remove('hidden');
+                
+                // Thiết lập nội dung dựa trên câu trả lời
+                if (answer === 'yes') {
+                    smileyIcon.textContent = '😄';
+                    resultText.textContent = 'Tuyệt vời! Đa dạng thực phẩm rất tốt!';
+                } else {
+                    smileyIcon.textContent = '🤣👉';
+                    resultText.textContent = 'Ghê Ghê Ghê';
+                }
+                
+                // Hiển thị kết quả với hiệu ứng
+                setTimeout(() => {
+                    resultSection.classList.add('show');
+                }, 100);
+                
+                // Tạo hiệu ứng confetti đơn giản
+                createConfetti();
+            }, 300);
+        }
+
+        function resetGame() {
+            const questionSection = document.getElementById('questionSection');
+            const resultSection = document.getElementById('resultSection');
+            
+            // Ẩn kết quả
+            resultSection.classList.remove('show');
+            
+            setTimeout(() => {
+                resultSection.classList.add('hidden');
+                questionSection.classList.remove('hidden');
+                questionSection.style.opacity = '1';
+                questionSection.style.transform = 'translateY(0)';
+            }, 300);
+        }
+
+        function createConfetti() {
+            const container = document.querySelector('.container');
+            const colors = ['#ff6b6b', '#4CAF50', '#2196F3', '#FF9800', '#9C27B0'];
+            
+            for (let i = 0; i < 20; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'absolute';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = '-10px';
+                confetti.style.borderRadius = '50%';
+                confetti.style.pointerEvents = 'none';
+                confetti.style.zIndex = '1000';
+                
+                container.appendChild(confetti);
+                
+                // Animation rơi
+                confetti.animate([
+                    { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(${container.offsetHeight + 20}px) rotate(720deg)`, opacity: 0 }
+                ], {
+                    duration: 2000 + Math.random() * 1000,
+                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                }).onfinish = () => {
+                    confetti.remove();
+                };
+            }
+        }
+
+        // Thêm một chút tương tác khi hover vào container
+        document.querySelector('.container').addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.02)';
+        });
+
+        document.querySelector('.container').addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+    </script>
+</body>
+</html>
